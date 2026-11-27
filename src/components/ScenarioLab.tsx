@@ -14,7 +14,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { GridNode, AlgorithmType } from '../types';
-import { bfs, dfs, dijkstra, astar, greedyBfs, getNodesInShortestPathOrder } from '../utils/algorithms';
+import { bfs, dfs, dijkstra, astar, greedyBfs, getPathCost, getNodesInShortestPathOrder } from '../utils/algorithms';
 
 
 export type ScenarioId = 'case1' | 'case2' | 'case3';
@@ -307,13 +307,13 @@ export default function ScenarioLab({
     const pathLeft = getNodesInShortestPathOrder(leftEndNode);
     const pathLeftFound = pathLeft.length > 0 && pathLeft[0].isStart;
     const pathLeftCost = pathLeftFound 
-      ? pathLeft.reduce((acc, curr) => acc + (curr.isStart ? 0 : curr.weight), 0)
+      ? getPathCost(pathLeft)
       : Infinity;
 
     const pathRight = getNodesInShortestPathOrder(rightEndNode);
     const pathRightFound = pathRight.length > 0 && pathRight[0].isStart;
     const pathRightCost = pathRightFound 
-      ? pathRight.reduce((acc, curr) => acc + (curr.isStart ? 0 : curr.weight), 0)
+      ? getPathCost(pathRight)
       : Infinity;
 
     setIsComparisonAnimating(true);

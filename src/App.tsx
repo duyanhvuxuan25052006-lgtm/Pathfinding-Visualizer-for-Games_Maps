@@ -8,7 +8,7 @@ import GridRenderer from './components/GridRenderer';
 import ScenarioLab, { ScenarioId } from './components/ScenarioLab';
 
 import { GridNode, AlgorithmType, SpeedType, ToolMode, AlgorithmMetrics, HeuristicType } from './types';
-import { bfs, dfs, dijkstra, astar, greedyBfs, getNodesInShortestPathOrder } from './utils/algorithms';
+import { bfs, dfs, dijkstra, astar, greedyBfs, getPathCost, getNodesInShortestPathOrder } from './utils/algorithms';
 import { generateRandomWalls, generateRecursiveDivision, generateSwampTerrain } from './utils/maze';
 
 const NUM_ROWS = 20;
@@ -270,11 +270,11 @@ export default function App() {
 
     // Save metrics details upon completion
     const visitedCount = visitedOrdered.length;
-    const pathLength = pathFound ? shortestPath.length : 0;
+    const pathLength = pathFound ? shortestPath.length - 1 : 0;
     
     // Sum weights of paths
     const pathCost = pathFound 
-      ? shortestPath.reduce((acc, curr) => acc + (curr.isStart ? 0 : curr.weight), 0)
+      ? getPathCost(shortestPath)
       : Infinity;
 
     // Play visual step progression
@@ -503,9 +503,9 @@ export default function App() {
         const shortestPath = getNodesInShortestPathOrder(finalPathNode);
         const pathFound = shortestPath.length > 0 && shortestPath[0].isStart;
 
-        const pathLength = pathFound ? shortestPath.length : 0;
+        const pathLength = pathFound ? shortestPath.length - 1 : 0;
         const pathCost = pathFound 
-          ? shortestPath.reduce((acc, curr) => acc + (curr.isStart ? 0 : curr.weight), 0)
+          ? getPathCost(shortestPath)
           : Infinity;
 
         const names: Record<AlgorithmType, string> = {
@@ -701,9 +701,9 @@ export default function App() {
         const shortestPath = getNodesInShortestPathOrder(finalPathNode);
         const pathFound = shortestPath.length > 0 && shortestPath[0].isStart;
 
-        const pathLength = pathFound ? shortestPath.length : 0;
+        const pathLength = pathFound ? shortestPath.length - 1 : 0;
         const pathCost = pathFound 
-          ? shortestPath.reduce((acc, curr) => acc + (curr.isStart ? 0 : curr.weight), 0)
+          ? getPathCost(shortestPath)
           : Infinity;
 
         const names = {
