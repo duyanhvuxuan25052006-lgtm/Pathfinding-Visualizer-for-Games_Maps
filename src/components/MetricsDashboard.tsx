@@ -24,7 +24,7 @@ export default function MetricsDashboard({
 
   // Maximum values for normalization in charts
   const maxVisited = Math.max(...metricsList.map(m => m.visitedCount), 1);
-  const maxCost = Math.max(...metricsList.map(m => m.pathCost), 1);
+  const maxCost = Math.max(...validMetrics.map(m => m.pathCost), 1);
 
   const formatTime = (time: number) => {
     if (time === 0) return '0.00 ms';

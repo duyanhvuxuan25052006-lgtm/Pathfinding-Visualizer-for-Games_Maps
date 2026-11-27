@@ -1,4 +1,4 @@
-import { GridNode } from '../types';
+import type { GridNode } from '../types';
 
 // ============================================================
 // HELPER: Lấy danh sách ô lân cận — hỗ trợ 4 hoặc 8 hướng
@@ -29,6 +29,15 @@ function getNeighbors(node: GridNode, grid: GridNode[][], allowDiagonal: boolean
 // Kiểm tra xem di chuyển từ a sang b có phải đường chéo không
 function isDiagonalMove(a: GridNode, b: GridNode): boolean {
   return a.row !== b.row && a.col !== b.col;
+}
+
+export function getPathCost(path: GridNode[]): number {
+  let cost = 0;
+  for (let i = 1; i < path.length; i++) {
+    const multiplier = isDiagonalMove(path[i - 1], path[i]) ? Math.SQRT2 : 1;
+    cost += path[i].weight * multiplier;
+  }
+  return cost;
 }
 
 // ============================================================
